@@ -5,7 +5,7 @@ const Products = () => {
   const products = [
     {
       id: 1,
-      image: "/images.jpg",
+      image: "/Images.jpg",
       name: "Syltherine",
       description: "Stylish cafe chair",
       price: "Rp 2.500.000",
@@ -13,7 +13,7 @@ const Products = () => {
     },
     {
       id: 2,
-      image: "/Image2.jpg",
+      image: "/image2.jpg",
       name: "Leviosa",
       description: "Modern sofa",
       price: "Rp 7.000.000",
@@ -38,7 +38,7 @@ const Products = () => {
     },
     {
       id: 5,
-      image: "/image5.jpg",
+      image: "/Image5.jpg",
       name: "Grifo",
       description: "Classic armchair",
       price: "Rp 3.000.000",
