@@ -2,6 +2,8 @@
 import React from "react";
 import { FaTruck, FaHandHoldingUsd, FaAward, FaPhoneAlt } from "react-icons/fa";
 
+
+
 // Service data
 const services = [
   {
