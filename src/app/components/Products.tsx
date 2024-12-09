@@ -13,7 +13,7 @@ const Products = () => {
     },
     {
       id: 2,
-      image: "/image2.jpg",
+      image: "/Image2.jpg",
       name: "Leviosa",
       description: "Modern sofa",
       price: "Rp 7.000.000",
