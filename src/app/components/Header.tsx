@@ -79,7 +79,9 @@ export default function Header() {
             <BsPersonExclamation className="text-2xl text-black cursor-pointer hover:text-gray-600" />
             <FiSearch className="text-2xl text-black cursor-pointer hover:text-gray-600" />
             <GoHeart className="text-2xl text-black cursor-pointer hover:text-gray-600" />
-            <AiOutlineShoppingCart className="text-2xl text-black cursor-pointer hover:text-gray-600" />
+            <Link href="/cart">
+              <AiOutlineShoppingCart className="text-2xl text-black cursor-pointer hover:text-gray-600" />
+            </Link>
           </div>
         </div>
       </header>

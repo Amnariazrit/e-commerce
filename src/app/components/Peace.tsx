@@ -70,7 +70,7 @@ const Peace = () => {
               className="object-cover rounded-lg w-full h-auto"
             />
             {/* Dots aligned below second image */}
-            <div className="absolute bottom-1 left-0 flex gap-2">
+            <div className="absolute left-0 flex gap-2">
               <span className="w-3 h-3 rounded-full bg-[#B88E2F]"></span>{" "}
               {/* Yellow dot */}
               <span className="w-3 h-3 rounded-full bg-[#D8D8D8]"></span>{" "}

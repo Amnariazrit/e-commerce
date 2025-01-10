@@ -1,5 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
+import React from "react";
+import Image from "next/image";
 
 const SubSection = () => {
   return (
@@ -9,8 +9,8 @@ const SubSection = () => {
           Browse The Range
         </h2>
         <p className="font-poppins text-lg lg:text-xl text-[#555555] mb-8">
-          Explore our diverse collection of premium furniture designed to elevate
-          your living space.
+          Explore our diverse collection of premium furniture designed to
+          elevate your living space.
         </p>
 
         {/* Images in a row */}
@@ -60,5 +60,3 @@ const SubSection = () => {
 };
 
 export default SubSection;
-
-

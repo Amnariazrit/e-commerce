@@ -1,12 +1,11 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import ContactForm from "../components/ContactForm";
-import Services from "../components/Services";
 
-const Contact = () => {
+const page = () => {
   return (
     <div>
+      {" "}
       {/* Background Image with Navigation */}
       <div className="relative w-full h-[316px]">
         <Image
@@ -25,7 +24,7 @@ const Contact = () => {
             className="mb-2"
           />
           <h2 className="font-[Poppins] font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#000000]">
-            Contact
+            Product Comparison
           </h2>
           <div className="flex justify-center items-center gap-4 mt-2">
             <Link
@@ -41,16 +40,13 @@ const Contact = () => {
               href="/"
               className="font-[Poppins] font-light text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
             >
-              Contact
+              Product Comparison
             </Link>
           </div>
         </div>
       </div>
-
-      <ContactForm />
-      <Services />
     </div>
   );
 };
 
-export default Contact;
+export default page;
