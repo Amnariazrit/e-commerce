@@ -9,9 +9,13 @@ export default function Cart() {
   const productPrice = 250000;
   const subtotal = productPrice * quantity;
 
-  const handleQuantityChange = (e:any) => {
-    const value = Math.max(1, parseInt(e.target.value) || 1); // Ensure at least 1
-    setQuantity(value);
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value, 10); // Parse input value as an integer
+    if (!isNaN(value) && value >= 1) {
+      setQuantity(value);
+    } else {
+      setQuantity(1); // Default to 1 if input is invalid
+    }
   };
 
   return (
@@ -132,6 +136,159 @@ export default function Cart() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// "use client";
+// import Image from "next/image";
+// import { useState } from "react";
+// import Link from "next/link";
+// import Services from "../components/Services";
+
+// export default function Cart() {
+//   const [quantity, setQuantity] = useState(1);
+//   const productPrice = 250000;
+//   const subtotal = productPrice * quantity;
+
+//   const handleQuantityChange = (e) => {
+//     const value = Math.max(1, parseInt(e.target.value) || 1); // Ensure at least 1
+//     setQuantity(value);
+//   };
+
+//   return (
+//     <div className="bg-white min-h-screen">
+//       {/* Background Image with Navigation */}
+//       <div className="relative w-full h-[316px]">
+//         <Image
+//           src="/Rectangle 1.jpg"
+//           alt="Background Image"
+//           layout="fill"
+//           objectFit="cover"
+//           priority
+//         />
+//         <div className="absolute inset-0 flex flex-col items-center justify-center">
+//           <Image
+//             src="/Meubel House_Logos-05.png"
+//             alt="logo"
+//             width={40}
+//             height={40}
+//             className="mb-2"
+//           />
+//           <h2 className="font-[Poppins] font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#000000]">
+//             Cart
+//           </h2>
+//           <div className="flex justify-center items-center gap-4 mt-2">
+//             <Link
+//               href="/"
+//               className="font-[Poppins] font-medium text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
+//             >
+//               Home
+//             </Link>
+//             <span className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-[#000000]">
+//               &#8594;
+//             </span>
+//             <Link
+//               href="/"
+//               className="font-[Poppins] font-light text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
+//             >
+//               Cart
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Main Cart Section */}
+//       <div className="flex justify-center p-4 mt-8">
+//         <div className="w-full max-w-6xl bg-white rounded-lg shadow-lg p-6">
+//           <div className="flex flex-col lg:flex-row gap-6">
+//             {/* Cart Items Section */}
+//             <div className="flex-1">
+//               {/* Header Row */}
+//               <div className="grid grid-cols-12 bg-[#F9F1E7] p-4 font-bold rounded-t-lg text-sm md:text-base">
+//                 <div className="col-span-6 lg:col-span-6">Product</div>
+//                 <div className="col-span-2 lg:col-span-2 text-center">
+//                   Price
+//                 </div>
+//                 <div className="col-span-2 lg:col-span-2 text-center">
+//                   Quantity
+//                 </div>
+//                 <div className="col-span-2 lg:col-span-2 text-center">
+//                   Subtotal
+//                 </div>
+//               </div>
+
+//               {/* Product Row */}
+//               <div className="grid grid-cols-12 items-center border-b p-4 text-sm md:text-base">
+//                 <div className="col-span-6 flex items-center gap-4">
+//                   <Image
+//                     src="/Asgaard sofa 5.jpg"
+//                     alt="Asgaard Sofa"
+//                     width={80}
+//                     height={80}
+//                     className="rounded-lg"
+//                   />
+//                   <span>Asgaard Sofa</span>
+//                 </div>
+//                 <div className="col-span-2 text-center">
+//                   Rs. {productPrice.toLocaleString()}
+//                 </div>
+//                 <div className="col-span-2 text-center">
+//                   <input
+//                     type="number"
+//                     value={quantity}
+//                     onChange={handleQuantityChange}
+//                     className="w-16 p-2 border rounded text-center"
+//                     min="1"
+//                   />
+//                 </div>
+//                 <div className="col-span-2 text-center">
+//                   Rs. {subtotal.toLocaleString()}
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Cart Totals Section */}
+//             <div className="w-full lg:w-1/3">
+//               <div className="bg-[#F9F1E7] rounded-lg shadow p-6">
+//                 <h3 className="text-lg font-bold mb-4">Cart Totals</h3>
+//                 <div className="flex justify-between mb-2 text-sm md:text-base">
+//                   <span>Subtotal:</span>
+//                   <span>Rs. {subtotal.toLocaleString()}</span>
+//                 </div>
+//                 <div className="flex justify-between mb-4 font-bold text-sm md:text-base">
+//                   <span>Total:</span>
+//                   <span className="text-[#B88E2F]">
+//                     Rs. {subtotal.toLocaleString()}
+//                   </span>
+//                 </div>
+//                 <button className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm md:text-base">
+//                   Check Out
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       <Services />
+//     </div>
+//   );
+// }
 
 
 

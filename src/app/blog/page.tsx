@@ -18,7 +18,7 @@ export default function Blog() {
                 key={post}
                 className="bg-white shadow-md rounded-lg overflow-hidden"
               >
-                <img
+                <Image
                   src={`/blog-post-${post}.jpg`}
                   alt="Blog Post"
                   className="w-full h-auto"
