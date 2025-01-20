@@ -6,6 +6,8 @@ import SubSection from "./components/SubSection";
 import LastSec from "./components/LastSec";
 
 export default function Home() {
+
+  
   return (
     <div className="w-full h-auto bg-white">
       <Hero />

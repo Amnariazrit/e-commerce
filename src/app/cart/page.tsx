@@ -25,8 +25,8 @@ export default function Cart() {
         <Image
           src="/Rectangle 1.jpg"
           alt="Background Image"
-          layout="fill"
-          objectFit="cover"
+          fill
+          className="object-cover"
           priority
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -102,6 +102,7 @@ export default function Cart() {
                     onChange={handleQuantityChange}
                     className="w-16 p-2 border rounded text-center"
                     min="1"
+                    step="1"
                   />
                 </div>
                 <div className="col-span-2 text-center">
@@ -124,9 +125,9 @@ export default function Cart() {
                     Rs. {subtotal.toLocaleString()}
                   </span>
                 </div>
-                <button className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm md:text-base">
+                <Link href="./checkOut"><button className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition text-sm md:text-base">
                   Check Out
-                </button>
+                </button></Link>
               </div>
             </div>
           </div>
@@ -136,14 +137,6 @@ export default function Cart() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
 
 
 

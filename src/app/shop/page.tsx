@@ -1,9 +1,42 @@
-import React from "react";
+'use client';
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Services from "../components/Services";
+import { client } from "@/sanity/lib/client"; // Adjust the import based on your client setup
+import Services from "../components/Services";  
+
+interface Product {
+  title: string;
+  price: number;
+  description: string;
+  productImageUrl: string;
+  tags?: string[];
+  discountPercentage?: number;
+  isNew?: boolean;
+}
 
 const Shop = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const query = `*[_type == "product"]{
+        title,
+        price,
+        description,
+        "productImageUrl": productImage.asset->url,
+        tags,
+        discountPercentage,
+        isNew
+      }`;
+
+      const data: Product[] = await client.fetch(query);
+      setProducts(data);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="w-full relative">
       {/* Background Image with Navigation */}
@@ -13,7 +46,6 @@ const Shop = () => {
           alt="Background Image"
           layout="fill"
           objectFit="cover"
-          priority
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <h2 className="font-[Poppins] font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#000000]">
@@ -105,6 +137,7 @@ const Shop = () => {
           </div>
         </div>
       </div>
+
       {/* Content Section */}
       <div className="w-full bg-white py-8">
         <div className="w-full max-w-screen-xl mx-auto px-4">
@@ -117,180 +150,65 @@ const Shop = () => {
         </div>
       </div>
 
-      {/* Featured Products Section */}
-      <div className="w-full bg-white py-8">
-        <div className="w-full max-w-screen-xl mx-auto px-4">
-          {/* Grid layout for images */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-8">
-            {/* Row 1 */}
-            <div className="flex justify-center">
+      {/* Product Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <div
+            key={product.title}
+            className="border p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+          >
+            {product.productImageUrl && (
               <Image
-                src="/Featured Products.png"
-                alt="Product 1"
+                src={product.productImageUrl}
+                alt={product.title}
                 width={285}
                 height={446}
-                className="object-cover"
+                className="object-cover w-full h-48 rounded-md"
               />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (1).png"
-                alt="Product 2"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (2).png"
-                alt="Product 3"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (3).png"
-                alt="Product 4"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-
-            {/* Row 2 */}
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products.png"
-                alt="Product 5"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products.jpg"
-                alt="Product 6"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (2).png"
-                alt="Product 7"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (3).png"
-                alt="Product 8"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-
-            {/* Row 3 */}
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products.png"
-                alt="Product 9"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products.jpg"
-                alt="Product 10"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (2).png"
-                alt="Product 11"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (3).png"
-                alt="Product 12"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-
-            {/* Row 4 */}
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products.png"
-                alt="Product 13"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products.jpg"
-                alt="Product 14"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (2).png"
-                alt="Product 15"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
-            <div className="flex justify-center">
-              <Image
-                src="/Featured Products (3).png"
-                alt="Product 16"
-                width={285}
-                height={446}
-                className="object-cover"
-              />
-            </div>
+            )}
+            <h2 className="text-lg font-semibold mt-2">{product.title}</h2>
+            <p className="text-gray-700 text-sm line-clamp-2">{product.description}</p>
+            <p className="text-gray-900 font-bold my-2">${product.price.toFixed(2)}</p>
+            {product.discountPercentage && (
+              <p className="text-green-500 text-sm">
+                {product.discountPercentage}% off
+              </p>
+            )}
+            {product.isNew && (
+              <span className="text-sm text-white bg-green-500 px-2 py-1 rounded-full">
+                New
+              </span>
+            )}
+            {product.tags && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {product.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-xs bg-gray-200 px-2 py-1 rounded-full"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
+        ))}
+      </div>
 
-          {/* Pagination Buttons */}
-          <div className="flex justify-center gap-4 mt-6">
-            <button className="bg-[#B88E2F] text-white py-2 px-4 rounded-lg font-medium">
-              1
-            </button>
-            <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
-              2
-            </button>
-            <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
-              3
-            </button>
-            <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
-              Next
-            </button>
-          </div>
-        </div>
+      {/* Pagination */}
+      <div className="flex justify-center gap-4 mt-6">
+        <button className="bg-[#B88E2F] text-white py-2 px-4 rounded-lg font-medium">
+          1
+        </button>
+        <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+          2
+        </button>
+        <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+          3
+        </button>
+        <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+          Next
+        </button>
       </div>
 
       <Services />
@@ -299,6 +217,580 @@ const Shop = () => {
 };
 
 export default Shop;
+
+
+
+
+
+
+
+
+
+
+
+
+// 'use client'
+// import React, { useEffect, useState } from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { client } from "@/sanity/lib/client"; // Adjust the import based on your client setup
+// import Services from "../components/Services";
+
+// // Define the types for Product and Tag
+// interface Product {
+//   title: string;
+//   price: number;
+//   description: string;
+//   productImageUrl: string;
+//   tags?: string[];
+//   discountPercentage?: number;
+//   isNew?: boolean;
+// }
+
+// const Shop = () => {
+//   const [products, setProducts] = useState<Product[]>([]);
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const query = `*[_type == "product"]{
+//         title,
+//         price,
+//         description,
+//         "productImageUrl": productImage.asset->url,
+//         tags,
+//         discountPercentage,
+//         isNew
+//       }`;
+
+//       const data: Product[] = await client.fetch(query);
+//       setProducts(data);
+//     };
+
+//     fetchData();
+//   }, []);
+
+//   return (
+//     <div className="w-full relative">
+//       {/* Background Image with Navigation */}
+//      <div className="relative w-full h-[316px]">
+//        <Image
+//           src="/Rectangle 1.jpg"
+//           alt="Background Image"
+//           layout="fill"
+//           objectFit="cover"
+          
+//         />
+//         <div className="absolute inset-0 flex flex-col items-center justify-center">
+//           <h2 className="font-[Poppins] font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#000000]">
+//             Shop
+//           </h2>
+//           <div className="flex justify-center items-center gap-4 mt-2">
+//             <Link
+//               href="/"
+//               className="font-[Poppins] font-medium text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
+//             >
+//               Home
+//             </Link>
+//             <span className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-[#000000]">
+//               &#8594;
+//             </span>
+//             <Link
+//               href="/"
+//               className="font-[Poppins] font-light text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
+//             >
+//               Shop
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Pink Container Section */}
+//       <div className="w-full bg-[#F9F1E7] py-4 px-4 sm:px-8 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
+//         {/* Filter Section */}
+//         <div className="flex items-center gap-2">
+//           <Image
+//             src="/system-uicons--filtering.svg"
+//             alt="Filter Icon"
+//             width={24}
+//             height={24}
+//             className="object-contain"
+//           />
+//           <h3 className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#000000]">
+//             Filter
+//           </h3>
+//         </div>
+
+//         {/* View Options */}
+//         <div className="flex items-center gap-4">
+//           <Image
+//             src="/menu.png"
+//             alt="Menu Icon"
+//             width={24}
+//             height={24}
+//             className="object-contain"
+//           />
+//           <Image
+//             src="/view-list.png"
+//             alt="View List Icon"
+//             width={24}
+//             height={24}
+//             className="object-contain"
+//           />
+//         </div>
+
+//         {/* Results Info */}
+//         <div className="text-center">
+//           <p className="font-[Poppins] font-[400] text-[14px] sm:text-[16px] text-[#000000]">
+//             Showing 1–16 of 32 results
+//           </p>
+//         </div>
+
+//         {/* Show and Sort Section */}
+//         <div className="flex flex-wrap items-center gap-4">
+//           <div className="flex items-center gap-2">
+//             <h3 className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#000000]">
+//               Show
+//             </h3>
+//             <div className="w-[55px] h-[30px] bg-white flex items-center justify-center">
+//               <p className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#9F9F9F]">
+//                 16
+//               </p>
+//             </div>
+//           </div>
+
+//           <div className="flex items-center gap-2">
+//             <h3 className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#000000]">
+//               Sort by
+//             </h3>
+//             <div className="w-[100px] h-[30px] bg-white flex items-center justify-center">
+//               <p className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#9F9F9F]">
+//                 Default
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       {/* Content Section */} 
+//       <div className="w-full bg-white py-8">
+//          <div className="w-full max-w-screen-xl mx-auto px-4">
+//            <div className="w-full flex justify-center items-center">
+//              <p className="font-[Poppins] font-[400] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] leading-[28px] text-[#000000]">
+//                Explore our wide range of products that suit every need and style.
+//                Shop now!
+//              </p>
+//            </div>
+//          </div>
+//        </div>
+
+
+
+//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+//         {products.map((product) => (
+//           <div
+//             key={product.title}
+//             className="border p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+//           >
+//             {product.productImageUrl && (
+//               <Image
+//                 src={product.productImageUrl}
+//                 alt={product.title}
+//                 width={285}
+//                 height={446}
+//                 className="object-cover w-full h-48 rounded-md"
+//               />
+//             )}
+//             <h2 className="text-lg font-semibold mt-2">{product.title}</h2>
+//             <p className="text-gray-700 text-sm line-clamp-2">{product.description}</p>
+//             <p className="text-gray-900 font-bold my-2">${product.price.toFixed(2)}</p>
+//             {product.discountPercentage && (
+//               <p className="text-green-500 text-sm">
+//                 {product.discountPercentage}% off
+//               </p>
+//             )}
+//             {product.isNew && (
+//               <span className="text-sm text-white bg-green-500 px-2 py-1 rounded-full">
+//                 New
+//               </span>
+//             )}
+//             {product.tags && (
+//               <div className="flex flex-wrap gap-2 mt-2">
+//                 {product.tags.map((tag) => (
+//                   <span
+//                     key={tag}
+//                     className="text-xs bg-gray-200 px-2 py-1 rounded-full"
+//                   >
+//                     {tag}
+//                   </span>
+//                 ))}
+//               </div>
+//             )}
+//           </div>
+//         ))}
+//       </div>
+//       <div className="flex justify-center gap-4 mt-6">
+//              <button className="bg-[#B88E2F] text-white py-2 px-4 rounded-lg font-medium">
+//                1
+//              </button>
+//              <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+//                2
+//              </button>
+//              <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+//                3
+//              </button>
+//              <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+//                Next
+//              </button>
+//            </div>
+         
+      
+//       <Services />
+//     </div>
+//   );
+// };
+
+// export default Shop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import React from "react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import Services from "../components/Services";
+
+// const Shop = () => {
+  
+//   return (
+//     <div className="w-full relative">
+//       {/* Background Image with Navigation */}
+//       <div className="relative w-full h-[316px]">
+//         <Image
+//           src="/Rectangle 1.jpg"
+//           alt="Background Image"
+//           layout="fill"
+//           objectFit="cover"
+//           priority
+//         />
+//         <div className="absolute inset-0 flex flex-col items-center justify-center">
+//           <h2 className="font-[Poppins] font-medium text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#000000]">
+//             Shop
+//           </h2>
+//           <div className="flex justify-center items-center gap-4 mt-2">
+//             <Link
+//               href="/"
+//               className="font-[Poppins] font-medium text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
+//             >
+//               Home
+//             </Link>
+//             <span className="text-sm sm:text-base md:text-lg lg:text-xl font-medium text-[#000000]">
+//               &#8594;
+//             </span>
+//             <Link
+//               href="/"
+//               className="font-[Poppins] font-light text-sm sm:text-base md:text-lg lg:text-xl text-[#000000]"
+//             >
+//               Shop
+//             </Link>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Pink Container Section */}
+//       <div className="w-full bg-[#F9F1E7] py-4 px-4 sm:px-8 flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
+//         {/* Filter Section */}
+//         <div className="flex items-center gap-2">
+//           <Image
+//             src="/system-uicons--filtering.svg"
+//             alt="Filter Icon"
+//             width={24}
+//             height={24}
+//             className="object-contain"
+//           />
+//           <h3 className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#000000]">
+//             Filter
+//           </h3>
+//         </div>
+
+//         {/* View Options */}
+//         <div className="flex items-center gap-4">
+//           <Image
+//             src="/menu.png"
+//             alt="Menu Icon"
+//             width={24}
+//             height={24}
+//             className="object-contain"
+//           />
+//           <Image
+//             src="/view-list.png"
+//             alt="View List Icon"
+//             width={24}
+//             height={24}
+//             className="object-contain"
+//           />
+//         </div>
+
+//         {/* Results Info */}
+//         <div className="text-center">
+//           <p className="font-[Poppins] font-[400] text-[14px] sm:text-[16px] text-[#000000]">
+//             Showing 1–16 of 32 results
+//           </p>
+//         </div>
+
+//         {/* Show and Sort Section */}
+//         <div className="flex flex-wrap items-center gap-4">
+//           <div className="flex items-center gap-2">
+//             <h3 className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#000000]">
+//               Show
+//             </h3>
+//             <div className="w-[55px] h-[30px] bg-white flex items-center justify-center">
+//               <p className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#9F9F9F]">
+//                 16
+//               </p>
+//             </div>
+//           </div>
+
+//           <div className="flex items-center gap-2">
+//             <h3 className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#000000]">
+//               Sort by
+//             </h3>
+//             <div className="w-[100px] h-[30px] bg-white flex items-center justify-center">
+//               <p className="font-[Poppins] font-[400] text-[16px] sm:text-[20px] text-[#9F9F9F]">
+//                 Default
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       {/* Content Section */}
+//       <div className="w-full bg-white py-8">
+//         <div className="w-full max-w-screen-xl mx-auto px-4">
+//           <div className="w-full flex justify-center items-center">
+//             <p className="font-[Poppins] font-[400] text-[16px] sm:text-[18px] md:text-[20px] lg:text-[24px] leading-[28px] text-[#000000]">
+//               Explore our wide range of products that suit every need and style.
+//               Shop now!
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Featured Products Section */}
+//       <div className="w-full bg-white py-8">
+//         <div className="w-full max-w-screen-xl mx-auto px-4">
+//           {/* Grid layout for images */}
+//           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-8">
+//             {/* Row 1 */}
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.png"
+//                 alt="Product 1"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (1).png"
+//                 alt="Product 2"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (2).png"
+//                 alt="Product 3"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (3).png"
+//                 alt="Product 4"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+
+//             {/* Row 2 */}
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.png"
+//                 alt="Product 5"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.jpg"
+//                 alt="Product 6"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (2).png"
+//                 alt="Product 7"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (3).png"
+//                 alt="Product 8"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+
+//             {/* Row 3 */}
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.png"
+//                 alt="Product 9"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.jpg"
+//                 alt="Product 10"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (2).png"
+//                 alt="Product 11"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (3).png"
+//                 alt="Product 12"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+
+//             {/* Row 4 */}
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.png"
+//                 alt="Product 13"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products.jpg"
+//                 alt="Product 14"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (2).png"
+//                 alt="Product 15"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//             <div className="flex justify-center">
+//               <Image
+//                 src="/Featured Products (3).png"
+//                 alt="Product 16"
+//                 width={285}
+//                 height={446}
+//                 className="object-cover"
+//               />
+//             </div>
+//           </div>
+
+//           {/* Pagination Buttons */}
+//           <div className="flex justify-center gap-4 mt-6">
+//             <button className="bg-[#B88E2F] text-white py-2 px-4 rounded-lg font-medium">
+//               1
+//             </button>
+//             <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+//               2
+//             </button>
+//             <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+//               3
+//             </button>
+//             <button className="bg-[#F9F1E7] text-[#000000] py-2 px-4 rounded-lg font-medium">
+//               Next
+//             </button>
+//           </div>
+//         </div>
+//       </div>
+
+//       <Services />
+//     </div>
+//   );
+// };
+
+// export default Shop;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import React from "react";
 // import Image from "next/image";
